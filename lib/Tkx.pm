@@ -331,7 +331,7 @@ sub call {
     }
 
     # report exception relative to the non-Tkx caller
-    if (!ref($@) && $@ =~ s/( at .*[\\\/](Tkx|Tcl)\.pm line \d+\.\n\z)//) {
+    if (!ref($@) && $@ =~ s/( at .*[\\\/](Tkx|Tcl)\.pm line \d+\.\s*\z)//) {
            my $i = 1;
            my($pkg, $file, $line);
            while (($pkg, $file, $line) = caller($i)) {
