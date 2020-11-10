@@ -331,14 +331,15 @@ sub call {
     }
 
     # report exception relative to the non-Tkx caller
-    if (!ref($@) && $@ =~ s/( at .*[\\\/](Tkx|Tcl)\.pm line \d+\.\s*\z)//) {
+    if (!ref($@) && $@ =~ s/^(Tcl error '?)?(.*?)('? at .*[\\\/](Tkx|Tcl)\.pm line \d+\.\s*\z)//s) {
+	   my $error = $2;
            my $i = 1;
            my($pkg, $file, $line);
            while (($pkg, $file, $line) = caller($i)) {
                last if $pkg !~ /^Tkx(::|$)/;
                $i++;
            };
-           $@ .= " at $file line $line.\n";
+           $@ = "$error at $file line $line.\n";
     }
     die $@;
 }
